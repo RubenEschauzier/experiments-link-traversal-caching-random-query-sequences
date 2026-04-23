@@ -47,7 +47,7 @@ can be slightly below the min size.
 
 ```bash
 npx tsc
-node scripts/shuffle_into_sequences.js
+node scripts/shuffle_into_sequences.js --seed 42
 ```
 
 Run the experiment locally:
