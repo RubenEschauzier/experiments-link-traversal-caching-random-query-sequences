@@ -5,5 +5,7 @@
   "@id": "urn:jbr:experiment-random-query-sequences-combinations",
   "@type": "FullFactorialCombinationProvider",
   "commonGenerated": true,
-  "factors": { "size": ["small", "medium", "large"] }
+  "factors": { 
+    "size": ["small", "medium", "large"] 
+  }
 }
