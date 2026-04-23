@@ -1,12 +1,14 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import { parseArgs } from 'node:util';
+import seedrandom from 'seedrandom';
 
 const { values } = parseArgs({
   options: {
     dir: { type: 'string', default: 'generated/out-queries' },
     min: { type: 'string', default: '25' },
-    max: { type: 'string', default: '35' }
+    max: { type: 'string', default: '35' },
+    seed: { type: 'string' } 
   },
 });
 
@@ -17,6 +19,13 @@ const maxSize = parseInt(values.max!, 10);
 if (minSize > maxSize) {
   console.error('Error: The minimum size cannot exceed the maximum size.');
   process.exit(1);
+}
+
+let rng = Math.random;
+
+if (values.seed) {
+  rng = seedrandom(values.seed);
+  console.log(`Using deterministic seed: '${values.seed}'`);
 }
 
 function getSparqlFiles(dir: string): string[] {
@@ -39,6 +48,7 @@ let originalFiles: string[] = [];
 
 try {
   originalFiles = getSparqlFiles(targetDir);
+  originalFiles.sort(); 
   for (const file of originalFiles) {
     const content = fs.readFileSync(file, 'utf-8');
     const queries = content
@@ -61,7 +71,7 @@ if (totalQueries === 0) {
 console.log(`Processing ${totalQueries} total queries from ${originalFiles.length} files...`);
 
 for (let i = totalQueries - 1; i > 0; i--) {
-  const j = Math.floor(Math.random() * (i + 1));
+  const j = Math.floor(rng() * (i + 1));
   [allQueries[i], allQueries[j]] = [allQueries[j], allQueries[i]];
 }
 
@@ -69,7 +79,7 @@ const sequenceSizes: number[] = [];
 let remaining = totalQueries;
 
 while (remaining >= minSize) {
-  const size = Math.floor(Math.random() * (maxSize - minSize + 1)) + minSize;
+  const size = Math.floor(rng() * (maxSize - minSize + 1)) + minSize;
   const actualSize = Math.min(size, remaining);
   sequenceSizes.push(actualSize);
   remaining -= actualSize;
