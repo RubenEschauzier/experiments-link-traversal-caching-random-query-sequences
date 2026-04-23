@@ -24,7 +24,7 @@
     "cpu_percentage": 100
   },
   "queryRunnerReplication": 10,
-  "queryRunnerWarmupRounds": 1,
+  "queryRunnerWarmupRounds": 0,
   "queryRunnerRequestDelay": 0,
   "queryRunnerEndpointAvailabilityCheckTimeout": 1000,
   "queryRunnerUrlParams": {},

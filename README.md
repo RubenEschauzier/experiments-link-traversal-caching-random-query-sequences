@@ -19,7 +19,11 @@ As the experiment code is undergoing review and refactoring before merging with 
 
 ```bash
 mkdir node_modules/@rubeneschauzier
-cp -r node_modules/@jbr-experiment/solidbench-sequence node_modules/@rubeneschauzier 
+cp -r node_modules/@jbr-experiment/solidbench-sequence node_modules/@rubeneschauzier &&
+cp -r node_modules/sparql-query-parameter-instantiator node_modules/@rubeneschauzier &&
+cp -r node_modules/rdf-dataset-fragmenter node_modules/@rubeneschauzier &&
+cp -r node_modules/ldbc-snb-enhancer node_modules/@rubeneschauzier &&
+cp -r node_modules/ldbc-snb-validation-generator node_modules/@rubeneschauzier 
 
 ```
 ## Usage
@@ -35,10 +39,15 @@ $ npm run jbr -- prepare
 ```
 
 Then run the random sequence generator script which randomly shuffles the queries into sequences of
-uniformly distributed size. Default size: 25-35
+uniformly distributed size. Default size: 25-35.
+The script accepts optional parameters to set the min (`--min`) and max (`--max`) size 
+or specify where the query files are stored (`--dir`).
+Note that to prevent the sequence built from left-over queries being tiny the actual size of the sequence
+can be slightly below the min size.
 
 ```bash
-node shuffle_into_sequences.js
+npx tsc
+node scripts/shuffle_into_sequences.js
 ```
 
 Run the experiment locally:
